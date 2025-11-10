@@ -3,41 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChainPort – Token Tracker</title>
+    <title>ChainPort – Multi-Chain Token Tracker</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
+
   <body>
     <header>
-      <h1>ChainPort</h1>
-      <div class="header-controls">
-        <select id="chainSelector">
-          <option value="eth-mainnet">Ethereum</option>
-          <option value="matic-mainnet">Polygon</option>
-          <option value="arbitrum-mainnet">Arbitrum</option>
-        </select>
+      <h1>⚡ ChainPort</h1>
+      <div class="wallet-controls">
         <button id="connectWallet">Connect Wallet</button>
       </div>
     </header>
 
-    <main>
-      <div class="wallet-info">
-        <p id="walletAddress">Wallet not connected</p>
-        <p id="ethPriceDisplay">ETH Price: --</p>
-      </div>
+    <section class="status-bar">
+      <p id="ethPriceDisplay">ETH Price: Loading...</p>
+      <p id="ensName">ENS: —</p>
+      <p id="gasPrice">Gas Price: —</p>
+    </section>
 
-      <canvas id="portfolioChart"></canvas>
-      <input id="tokenSearch" placeholder="Search token..." />
-      <p id="ethPriceDisplay"></p>
-      <p id="ensName"></p>
-      <p id="gasPrice"></p>
+    <main>
+      <section id="wallet-info">
+        <p id="walletAddress">Wallet not connected</p>
+      </section>
 
       <section id="portfolio">
-        <h2>Your Portfolio</h2>
+        <div class="portfolio-header">
+          <h2>Your Portfolio</h2>
+          <input
+            type="text"
+            id="tokenSearch"
+            placeholder="🔍 Search token..."
+          />
+        </div>
+
         <table id="tokenTable">
           <thead>
             <tr>
@@ -47,16 +46,21 @@
               <th>Value</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td colspan="4" style="text-align: center">No data yet</td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
-        <p id="totalValue">Total Value: $0.00</p>
+        <p id="totalValue"></p>
+
+        <div class="chart-container">
+          <canvas id="portfolioChart"></canvas>
+        </div>
       </section>
     </main>
 
+    <footer>
+      <p>Built with 💛 by DinoChain</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="script.js"></script>
   </body>
 </html>

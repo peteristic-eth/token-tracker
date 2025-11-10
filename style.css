@@ -1,174 +1,152 @@
-/* === GLOBAL RESET === */
+/* ========= Base Reset ========= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-/* === BODY === */
+/* ========= Body ========= */
 body {
-  background-color: #0a0a0a;
-  color: #f5d67b;
+  background: linear-gradient(135deg, #000000, #1a1a1a);
+  color: #f5f5f5;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 2rem;
 }
 
-/* === HEADER === */
+/* ========= Header ========= */
 header {
-  width: 100%;
-  max-width: 1100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #f5d67b33;
-  padding-bottom: 1rem;
 }
 
-header h1 {
+h1 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #f5d67b;
   letter-spacing: 1px;
+  background: linear-gradient(90deg, #ffd700, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* === BUTTON === */
 button {
-  background: linear-gradient(90deg, #f5d67b, #b8860b);
+  background: linear-gradient(90deg, #d4af37, #ffd700);
+  color: #000;
   border: none;
+  padding: 0.6rem 1.2rem;
   border-radius: 25px;
-  padding: 0.6rem 1.4rem;
-  color: #0a0a0a;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  box-shadow: 0 0 10px #f5d67b55;
-  transform: translateY(-1px);
-}
-
-/* === CHAIN SELECTOR === */
-select {
-  background-color: #141414;
-  color: #f5d67b;
-  border: 1px solid #f5d67b55;
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
-select:hover {
-  background-color: #1e1e1e;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
 }
 
-/* === MAIN CONTAINER === */
-main {
-  width: 100%;
-  max-width: 1100px;
-  background-color: #111;
-  border: 1px solid #f5d67b22;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 0 25px rgba(245, 214, 123, 0.1);
-}
-
-/* === WALLET INFO === */
-.wallet-info {
+/* ========= Status Bar ========= */
+.status-bar {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
-  color: #f5d67b;
-  opacity: 0.9;
+  color: #d4af37;
 }
 
-/* === SEARCH BAR === */
-.search-bar {
-  width: 100%;
-  margin: 1rem 0 1.5rem;
+/* ========= Portfolio Section ========= */
+#portfolio {
+  background: rgba(255, 215, 0, 0.05);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
 }
 
-.search-bar input {
-  width: 100%;
-  padding: 0.8rem 1rem;
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#tokenSearch {
+  background: transparent;
+  border: 1px solid #d4af37;
+  padding: 0.5rem 0.8rem;
   border-radius: 8px;
-  border: 1px solid #f5d67b33;
-  background-color: #0a0a0a;
-  color: #f5d67b;
-  font-size: 1rem;
+  color: #f5f5f5;
+  outline: none;
+  transition: 0.3s;
 }
 
-/* === PORTFOLIO TABLE === */
-#portfolio h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #f5d67b;
-  margin-bottom: 1rem;
+#tokenSearch::placeholder {
+  color: #bfae5d;
 }
 
+#tokenSearch:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+/* ========= Table ========= */
 table {
   width: 100%;
+  margin-top: 1rem;
   border-collapse: collapse;
-  color: #f5d67b;
 }
 
 th,
 td {
+  border-bottom: 1px solid #d4af37;
+  padding: 0.8rem;
   text-align: left;
-  padding: 0.9rem;
-  border-bottom: 1px solid #f5d67b22;
 }
 
 th {
-  font-weight: 700;
-  color: #f5d67b;
+  color: #ffd700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: 0.9rem;
 }
 
-tr {
-  transition: all 0.25s ease;
+td {
+  color: #f5f5f5;
 }
 
-tr:hover {
-  background-color: #1a1a1a;
-  box-shadow: 0 0 12px rgba(245, 214, 123, 0.15);
-  transform: scale(1.005);
+#tokenTable tr:hover {
+  background: rgba(255, 215, 0, 0.08);
+  transition: 0.3s;
 }
 
-/* === TOKEN ICON === */
-.token-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-/* === TOTAL VALUE === */
+/* ========= Total Value ========= */
 #totalValue {
-  text-align: right;
   margin-top: 1.2rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #ffd36a;
+  font-size: 1.3rem;
+  color: #ffd700;
+  font-weight: bold;
+  text-align: right;
 }
 
-/* === ETH PRICE === */
-#ethPriceDisplay {
-  font-size: 0.95rem;
-  color: #d2b048;
+/* ========= Chart ========= */
+.chart-container {
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+}
+
+/* ========= Footer ========= */
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: #bfae5d;
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
