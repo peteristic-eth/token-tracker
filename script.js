@@ -9,7 +9,9 @@ const totalValueDisplay = document.getElementById("totalValue");
 const ethPriceDisplay = document.getElementById("ethPriceDisplay");
 const ensNameDisplay = document.getElementById("ensName");
 const gasPriceDisplay = document.getElementById("gasPrice");
-const tokenSearchInput = document.getElementById("searchToken") || document.getElementById("tokenSearch");
+const tokenSearchInput =
+  document.getElementById("searchToken") ||
+  document.getElementById("tokenSearch");
 
 let shareBtn = document.getElementById("shareBtn");
 let exportBtn = document.getElementById("exportCsv");
@@ -23,7 +25,9 @@ let viewedAddress = null;
 let currentChain = "eth-mainnet";
 let refreshInterval = null;
 let lastTokens = [];
-let portfolioHistory = JSON.parse(localStorage.getItem("portfolioHistory") || "[]");
+let portfolioHistory = JSON.parse(
+  localStorage.getItem("portfolioHistory") || "[]"
+);
 
 /* ---------------------------
    Utility: read URL params
@@ -55,10 +59,15 @@ function saveLastViewed(address, chain) {
    --------------------------- */
 async function getEthPriceUSD() {
   try {
-    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,polygon,arbitrum&vs_currencies=usd");
+    const res = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,polygon,arbitrum&vs_currencies=usd"
+    );
     const data = await res.json();
     const ethPrice = data?.ethereum?.usd ?? null;
-    if (ethPriceDisplay && ethPrice != null) ethPriceDisplay.textContent = `ETH Price: $${Number(ethPrice).toFixed(2)}`;
+    if (ethPriceDisplay && ethPrice != null)
+      ethPriceDisplay.textContent = `ETH Price: $${Number(ethPrice).toFixed(
+        2
+      )}`;
     return ethPrice;
   } catch (e) {
     console.error("Failed to fetch ETH price:", e);
@@ -84,10 +93,14 @@ async function getENSName(address) {
 async function getGasPrice() {
   if (!gasPriceDisplay) return;
   try {
-    const res = await fetch("https://api.etherscan.io/api?module=gastracker&action=gasoracle");
+    const res = await fetch(
+      "https://api.etherscan.io/api?module=gastracker&action=gasoracle"
+    );
     const data = await res.json();
     const gas = data?.result?.ProposeGasPrice;
-    gasPriceDisplay.textContent = gas ? `Gas Price: ${gas} Gwei` : "Gas Price: —";
+    gasPriceDisplay.textContent = gas
+      ? `Gas Price: ${gas} Gwei`
+      : "Gas Price: —";
   } catch {
     gasPriceDisplay.textContent = "Gas Price: —";
   }
@@ -118,23 +131,43 @@ if (chainSelector) {
    --------------------------- */
 connectButton.addEventListener("click", async () => {
   try {
-    if (!window.ethereum) {
-      return alert("Please install MetaMask!");
+    // If already connected → handle disconnect
+    if (walletAddress) {
+      const confirmDisconnect = confirm("Disconnect wallet?");
+      if (confirmDisconnect) {
+        walletAddress = null;
+        walletAddressDisplay.textContent = "Wallet disconnected";
+        connectButton.textContent = "Connect Wallet";
+        connectButton.classList.remove("connected");
+        tokenTableBody.innerHTML = `
+          <tr>
+            <td colspan='5' style="text-align:center">Wallet disconnected</td>
+          </tr>`;
+        totalValueDisplay.textContent = "Total Value: $0.00";
+      }
+      return;
     }
-    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-    walletAddress = accounts[0];
-    viewedAddress = walletAddress;
-    walletAddressDisplay.textContent = `Connected: ${shortAddress(walletAddress)}`;
-    connectButton.textContent = "Connected ✅";
 
-    // After connecting — update ENS and load portfolio, and save
+    // If not connected → connect wallet
+    if (!window.ethereum) return alert("Please install MetaMask!");
+
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    walletAddress = accounts[0];
+    walletAddressDisplay.textContent = `Connected: ${walletAddress}`;
+    connectButton.textContent = "Disconnect Wallet";
+    connectButton.classList.add("connected");
+
     await getENSName(walletAddress);
     await loadPortfolio(walletAddress);
-    saveLastViewed(walletAddress, currentChain);
   } catch (err) {
-    console.error("Wallet connection error:", err);
+    console.error(err);
+    alert("Failed to connect wallet. Try again.");
   }
 });
+
 
 /* ---------------------------
    Share / CSV UI buttons creation (if not present in HTML)
@@ -170,24 +203,32 @@ function ensureUtilityButtons() {
   });
 
   exportBtn.addEventListener("click", () => {
-    if (!lastTokens || lastTokens.length === 0) return alert("No tokens to export.");
+    if (!lastTokens || lastTokens.length === 0)
+      return alert("No tokens to export.");
     const rows = [
       ["Token", "Balance", "PriceUSD", "ValueUSD", "ContractAddress", "Chain"],
       ...lastTokens.map((t) => [
         t.contract_ticker_symbol,
         (t.balance / Math.pow(10, t.contract_decimals)).toString(),
         (t.quote_rate || 0).toString(),
-        ((t.balance / Math.pow(10, t.contract_decimals)) * (t.quote_rate || 0)).toString(),
+        (
+          (t.balance / Math.pow(10, t.contract_decimals)) *
+          (t.quote_rate || 0)
+        ).toString(),
         t.contract_address || "",
         currentChain,
       ]),
     ];
-    const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const csv = rows
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `chainport_${viewedAddress?.slice(0, 6) || "snapshot"}_${currentChain}.csv`;
+    a.download = `chainport_${
+      viewedAddress?.slice(0, 6) || "snapshot"
+    }_${currentChain}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -214,7 +255,9 @@ function percentChangeSince(hours) {
   const now = Date.now();
   const cutoff = now - hours * 60 * 60 * 1000;
   // find earliest point >= cutoff
-  const earlier = portfolioHistory.find((p) => new Date(p.time).getTime() >= cutoff);
+  const earlier = portfolioHistory.find(
+    (p) => new Date(p.time).getTime() >= cutoff
+  );
   if (!earlier) return null;
   const latest = portfolioHistory[portfolioHistory.length - 1].value;
   const earlierValue = earlier.value;
@@ -233,10 +276,15 @@ function updatePerformanceSummary() {
     perfEl.id = "perfSummary";
     perfEl.style.color = "#ffd36a";
     perfEl.style.marginLeft = "12px";
-    const statusBar = document.querySelector(".wallet-info") || document.querySelector(".status-bar") || document.body;
+    const statusBar =
+      document.querySelector(".wallet-info") ||
+      document.querySelector(".status-bar") ||
+      document.body;
     statusBar.insertAdjacentElement("beforeend", perfEl);
   }
-  perfEl.textContent = `24h: ${p24 === null ? "N/A" : p24.toFixed(2) + "%"} • 7d: ${p7d === null ? "N/A" : p7d.toFixed(2) + "%"}`;
+  perfEl.textContent = `24h: ${
+    p24 === null ? "N/A" : p24.toFixed(2) + "%"
+  } • 7d: ${p7d === null ? "N/A" : p7d.toFixed(2) + "%"}`;
 }
 
 /* ---------------------------
@@ -254,7 +302,9 @@ async function getSparkline(symbol) {
   const id = idMap[symbol.toUpperCase()];
   if (!id) return null;
   try {
-    const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7&interval=daily`);
+    const res = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7&interval=daily`
+    );
     const data = await res.json();
     return data?.prices?.map((p) => p[1]) || null;
   } catch (e) {
@@ -270,7 +320,7 @@ function renderSparkline(canvasId, prices) {
   const max = Math.max(...prices);
   const min = Math.min(...prices);
   const scaleX = canvas.width / (prices.length - 1 || 1);
-  const scaleY = (max - min) === 0 ? 1 : canvas.height / (max - min);
+  const scaleY = max - min === 0 ? 1 : canvas.height / (max - min);
 
   ctx.beginPath();
   ctx.strokeStyle = "#FFD700";
@@ -290,7 +340,8 @@ function renderSparkline(canvasId, prices) {
 async function loadPortfolio(address) {
   if (!address) return;
   try {
-    tokenTableBody.innerHTML = "<tr><td colspan='5' style='text-align:center'>Loading...</td></tr>";
+    tokenTableBody.innerHTML =
+      "<tr><td colspan='5' style='text-align:center'>Loading...</td></tr>";
     viewedAddress = address;
 
     // update UI
@@ -298,7 +349,8 @@ async function loadPortfolio(address) {
 
     // fetch price + covalent
     const ethPrice = await getEthPriceUSD();
-    const selectedChain = (chainSelector && chainSelector.value) || currentChain;
+    const selectedChain =
+      (chainSelector && chainSelector.value) || currentChain;
 
     const url = `https://api.covalenthq.com/v1/${selectedChain}/address/${address}/balances_v2/?key=${COVALENT_API_KEY}`;
     const res = await fetch(url);
@@ -306,15 +358,35 @@ async function loadPortfolio(address) {
 
     const items = data?.data?.items || [];
     // filter out zero balances and system placeholders
-    const tokens = items.filter((t) => Number(t.balance) > 0 && t.contract_decimals > 0);
+    const tokens = items.filter(
+      (t) => Number(t.balance) > 0 && t.contract_decimals > 0
+    );
 
-    tokenTableBody.innerHTML = "";
+    tokenTableBody.innerHTML = `
+  ${Array(5)
+    .fill()
+    .map(
+      () => `
+    <tr class="loading-row">
+      <td class="shimmer"></td>
+      <td class="shimmer"></td>
+      <td class="shimmer"></td>
+      <td class="shimmer"></td>
+      <td class="shimmer"></td>
+    </tr>`
+    )
+    .join("")}
+`;
     lastTokens = tokens;
 
     let totalUsd = 0;
     for (const token of tokens) {
-      const balance = Number(token.balance) / Math.pow(10, token.contract_decimals);
-      const price = token.contract_ticker_symbol === "ETH" ? ethPrice : (token.quote_rate || 0);
+      const balance =
+        Number(token.balance) / Math.pow(10, token.contract_decimals);
+      const price =
+        token.contract_ticker_symbol === "ETH"
+          ? ethPrice
+          : token.quote_rate || 0;
       const value = balance * price;
       totalUsd += value;
 
@@ -324,19 +396,26 @@ async function loadPortfolio(address) {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td style="display:flex;align-items:center;gap:8px">
-          ${logo ? `<img src="${logo}" class="token-icon" alt="${token.contract_ticker_symbol}" onerror="this.style.display='none'">` : ''}
+          ${
+            logo
+              ? `<img src="${logo}" class="token-icon" alt="${token.contract_ticker_symbol}" onerror="this.style.display='none'">`
+              : ""
+          }
           <span class="token-name">${token.contract_ticker_symbol}</span>
         </td>
         <td>${balance.toFixed(4)}</td>
         <td>$${Number(price).toFixed(2)}</td>
         <td>$${Number(value).toFixed(2)}</td>
-        <td><canvas id="spark-${token.contract_ticker_symbol}" width="80" height="26"></canvas></td>
+        <td><canvas id="spark-${
+          token.contract_ticker_symbol
+        }" width="80" height="26"></canvas></td>
       `;
       tokenTableBody.appendChild(row);
 
       // fetch sparkline and render (best-effort)
       getSparkline(token.contract_ticker_symbol).then((prices) => {
-        if (prices) renderSparkline(`spark-${token.contract_ticker_symbol}`, prices);
+        if (prices)
+          renderSparkline(`spark-${token.contract_ticker_symbol}`, prices);
       });
     }
 
@@ -350,7 +429,8 @@ async function loadPortfolio(address) {
     saveLastViewed(address, selectedChain);
   } catch (err) {
     console.error("loadPortfolio error:", err);
-    tokenTableBody.innerHTML = "<tr><td colspan='5' style='text-align:center;color:#ffb86c'>Failed to load data</td></tr>";
+    tokenTableBody.innerHTML =
+      "<tr><td colspan='5' style='text-align:center;color:#ffb86c'>Failed to load data</td></tr>";
   }
 }
 
@@ -372,7 +452,9 @@ if (tokenSearchInput) {
   tokenSearchInput.addEventListener("input", () => {
     const term = tokenSearchInput.value.toLowerCase();
     tokenTableBody.querySelectorAll("tr").forEach((row) => {
-      const name = (row.querySelector(".token-name")?.textContent || "").toLowerCase();
+      const name = (
+        row.querySelector(".token-name")?.textContent || ""
+      ).toLowerCase();
       row.style.display = name.includes(term) ? "" : "none";
     });
   });
@@ -474,7 +556,7 @@ function renderPerformanceChart() {
 
 /* hook chart rendering into history updates */
 const oldAddToHistory = addToHistory;
-addToHistory = function(totalValue) {
+addToHistory = function (totalValue) {
   oldAddToHistory(totalValue);
   renderPerformanceChart();
 };
