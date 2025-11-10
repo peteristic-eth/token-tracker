@@ -5,43 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChainPort – Token Tracker</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
       <h1>ChainPort</h1>
-      <select id="chainSelector">
-        <option value="eth-mainnet">Ethereum</option>
-        <option value="matic-mainnet">Polygon</option>
-        <option value="arbitrum-mainnet">Arbitrum</option>
-      </select>
-
-      <button id="connectWallet">Connect Wallet</button>
+      <div class="header-controls">
+        <select id="chainSelector">
+          <option value="eth-mainnet">Ethereum</option>
+          <option value="matic-mainnet">Polygon</option>
+          <option value="arbitrum-mainnet">Arbitrum</option>
+        </select>
+        <button id="connectWallet">Connect Wallet</button>
+      </div>
     </header>
-    <main>
-      <section id="wallet-info">
-        <p id="walletAddress">Wallet not connected</p>
-      </section>
-      <section id="extra-info">
-        <p id="ensName">ENS: —</p>
-        <p id="gasPrice">Gas Price: Loading...</p>
-      </section>
 
-      <input
-        type="text"
-        id="tokenSearch"
-        placeholder="Search token..."
-        style="
-          margin-top: 1rem;
-          padding: 0.6rem;
-          width: 100%;
-          border-radius: 8px;
-          border: none;
-          outline: none;
-        "
-      />
+    <main>
+      <div class="wallet-info">
+        <p id="walletAddress">Wallet not connected</p>
+        <p id="ethPriceDisplay">ETH Price: --</p>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="searchToken" placeholder="Search token..." />
+      </div>
+
       <section id="portfolio">
         <h2>Your Portfolio</h2>
-        <p id="ethPriceDisplay">ETH Price: Loading...</p>
         <table id="tokenTable">
           <thead>
             <tr>
@@ -51,15 +42,14 @@
               <th>Value</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr><td colspan="4" style="text-align:center;">No data yet</td></tr>
+          </tbody>
         </table>
-        <p id="totalValue"></p>
-        <canvas id="portfolioChart" width="400" height="400"></canvas>
+        <p id="totalValue">Total Value: $0.00</p>
       </section>
     </main>
 
-    <script type="module" src="https://esm.sh/viem@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="script.js"></script>
   </body>
 </html>

@@ -1,88 +1,174 @@
+/* === GLOBAL RESET === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
+/* === BODY === */
 body {
-  background: linear-gradient(120deg, #001d1f, #002b2e);
-  color: #cfd8dc;
+  background-color: #0a0a0a;
+  color: #f5d67b;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem;
 }
 
+/* === HEADER === */
 header {
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  border-bottom: 1px solid #f5d67b33;
+  padding-bottom: 1rem;
 }
 
-h1 {
-  color: #00b8b8;
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f5d67b;
+  letter-spacing: 1px;
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* === BUTTON === */
 button {
-  background-color: #00b8b8;
-  color: #001d1f;
+  background: linear-gradient(90deg, #f5d67b, #b8860b);
   border: none;
-  padding: 0.6rem 1.2rem;
   border-radius: 25px;
-  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  color: #0a0a0a;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #009a9a;
+  box-shadow: 0 0 10px #f5d67b55;
+  transform: translateY(-1px);
 }
 
-table {
-  width: 100%;
-  margin-top: 1rem;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border-bottom: 1px solid #00b8b8;
-  padding: 0.75rem;
-  text-align: left;
-}
-
-th {
-  color: #00b8b8;
-}
-
-#totalValue {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #00e0e0;
-  font-weight: bold;
-}
-
-#tokenTable td {
-  color: #cfd8dc;
-}
-
-#tokenTable tr:hover {
-  background: rgba(0, 184, 184, 0.1);
-  transition: 0.3s;
-}
-
+/* === CHAIN SELECTOR === */
 select {
-  background-color: #002b2e;
-  color: #cfd8dc;
-  border: 1px solid #00b8b8;
+  background-color: #141414;
+  color: #f5d67b;
+  border: 1px solid #f5d67b55;
   border-radius: 25px;
-  padding: 0.6rem 1.2rem;
-  margin-right: 1rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
 select:hover {
-  background-color: #003b3f;
+  background-color: #1e1e1e;
+}
+
+/* === MAIN CONTAINER === */
+main {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #111;
+  border: 1px solid #f5d67b22;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 25px rgba(245, 214, 123, 0.1);
+}
+
+/* === WALLET INFO === */
+.wallet-info {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #f5d67b;
+  opacity: 0.9;
+}
+
+/* === SEARCH BAR === */
+.search-bar {
+  width: 100%;
+  margin: 1rem 0 1.5rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #f5d67b33;
+  background-color: #0a0a0a;
+  color: #f5d67b;
+  font-size: 1rem;
+}
+
+/* === PORTFOLIO TABLE === */
+#portfolio h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f5d67b;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #f5d67b;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.9rem;
+  border-bottom: 1px solid #f5d67b22;
+}
+
+th {
+  font-weight: 700;
+  color: #f5d67b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+tr {
+  transition: all 0.25s ease;
+}
+
+tr:hover {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 12px rgba(245, 214, 123, 0.15);
+  transform: scale(1.005);
+}
+
+/* === TOKEN ICON === */
+.token-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* === TOTAL VALUE === */
+#totalValue {
+  text-align: right;
+  margin-top: 1.2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffd36a;
+}
+
+/* === ETH PRICE === */
+#ethPriceDisplay {
+  font-size: 0.95rem;
+  color: #d2b048;
 }
