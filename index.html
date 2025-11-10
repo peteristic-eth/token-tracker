@@ -9,6 +9,12 @@
   <body>
     <header>
       <h1>ChainPort</h1>
+      <select id="chainSelector">
+        <option value="eth-mainnet">Ethereum</option>
+        <option value="matic-mainnet">Polygon</option>
+        <option value="arbitrum-mainnet">Arbitrum</option>
+      </select>
+
       <button id="connectWallet">Connect Wallet</button>
     </header>
     <main>
@@ -16,16 +22,23 @@
         <p id="walletAddress">Wallet not connected</p>
       </section>
       <section id="extra-info">
-  <p id="ensName">ENS: —</p>
-  <p id="gasPrice">Gas Price: Loading...</p>
-</section>
+        <p id="ensName">ENS: —</p>
+        <p id="gasPrice">Gas Price: Loading...</p>
+      </section>
 
-<input
-  type="text"
-  id="tokenSearch"
-  placeholder="Search token..."
-  style="margin-top:1rem;padding:0.6rem;width:100%;border-radius:8px;border:none;outline:none;"
-/>
+      <input
+        type="text"
+        id="tokenSearch"
+        placeholder="Search token..."
+        style="
+          margin-top: 1rem;
+          padding: 0.6rem;
+          width: 100%;
+          border-radius: 8px;
+          border: none;
+          outline: none;
+        "
+      />
       <section id="portfolio">
         <h2>Your Portfolio</h2>
         <p id="ethPriceDisplay">ETH Price: Loading...</p>

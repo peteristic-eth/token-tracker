@@ -116,9 +116,13 @@ async function loadPortfolio(address) {
   try {
     tokenTableBody.innerHTML = "<tr><td colspan='4'>Loading...</td></tr>";
 
+    const selectedChain = document.getElementById("chainSelector").value;
+
+    // 👇 Fetch ETH price (only for ETH chain)
     const ethPrice = await getEthPriceUSD();
+
     const response = await fetch(
-      `https://api.covalenthq.com/v1/${currentChain}/address/${address}/balances_v2/?key=${COVALENT_API_KEY}`
+      `https://api.covalenthq.com/v1/${selectedChain}/address/${address}/balances_v2/?key=${COVALENT_API_KEY}`
     );
     const data = await response.json();
 
@@ -127,6 +131,7 @@ async function loadPortfolio(address) {
     );
 
     tokenTableBody.innerHTML = "";
+
     let totalUsd = 0;
 
     tokens.forEach((token) => {
@@ -149,10 +154,10 @@ async function loadPortfolio(address) {
     });
 
     totalValueDisplay.textContent = `Total Value: $${totalUsd.toFixed(2)}`;
-    renderPortfolioChart(tokens);
   } catch (err) {
     console.error("Error loading portfolio:", err);
-    tokenTableBody.innerHTML = "<tr><td colspan='4'>Failed to load data</td></tr>";
+    tokenTableBody.innerHTML =
+      "<tr><td colspan='4'>Failed to load data</td></tr>";
   }
 }
 
@@ -204,4 +209,11 @@ tokenSearchInput.addEventListener("input", () => {
     const token = row.querySelector("td:first-child").textContent.toLowerCase();
     row.style.display = token.includes(searchTerm) ? "" : "none";
   });
+});
+
+// 🧭 Reload portfolio when chain is switched
+document.getElementById("chainSelector").addEventListener("change", () => {
+  if (walletAddress) {
+    loadPortfolio(walletAddress);
+  }
 });

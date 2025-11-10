@@ -70,3 +70,19 @@ th {
   background: rgba(0, 184, 184, 0.1);
   transition: 0.3s;
 }
+
+select {
+  background-color: #002b2e;
+  color: #cfd8dc;
+  border: 1px solid #00b8b8;
+  border-radius: 25px;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+select:hover {
+  background-color: #003b3f;
+}
