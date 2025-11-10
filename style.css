@@ -183,49 +183,37 @@ footer {
   opacity: 0.9;
 }
 
-/* ====================== */
-/* 🌙 THEME SYSTEM */
-/* ====================== */
-:root {
-  --bg-color: #0a0a0a;
-  --text-color: #f5f5f5;
-  --accent-color: #ffd700;
-  --card-bg: #1a1a1a;
-  --border-color: #333;
-}
-
-body.light {
-  --bg-color: #fafafa;
-  --text-color: #1a1a1a;
-  --accent-color: #d4af37;
-  --card-bg: #fff;
-  --border-color: #ddd;
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background 0.4s, color 0.4s;
-}
-
-table, .wallet-info, .theme-toggle, .search-bar {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  transition: background 0.4s, border 0.4s;
-}
-
-#themeToggle {
-  margin-top: 20px;
-  padding: 0.5rem 1rem;
+/* Small helpers for new Phase 9 features */
+#shareBtn, #exportCsv {
+  margin-left: 8px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
   border: none;
-  background: var(--accent-color);
-  color: var(--bg-color);
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
+  background: linear-gradient(90deg,#ffd36a,#d4af37);
+  color: #000;
+  font-weight:700;
+  cursor:pointer;
 }
-#themeToggle:hover {
-  opacity: 0.8;
+#perfSummary {
+  margin-top: 8px;
+  font-weight:700;
+  color:#ffd36a;
+}
+.token-icon { width:20px; height:20px; border-radius:50%; object-fit:cover; }
+
+#performance {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.03);
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(255,211,106,0.1);
+}
+#performance h2 {
+  font-size: 1.2rem;
+  color: #ffd36a;
+  margin-bottom: 0.8rem;
+}
+#performanceChart {
+  width: 100%;
+  height: 250px;
 }
